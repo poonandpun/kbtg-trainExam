@@ -26,7 +26,7 @@ public class BackendExamApplication {
 	private void CreateTable(EmployeeService employeeService)
 	{
 		Employee employee = new Employee("Adam", "SerAdam",
-				"Nickdam", "20000","Bangkok", "Current", "PositionA");
+				"Nickdam", 20000,"Bangkok", "Current", "PositionA");
 		employeeService.save(employee);
 		System.out.println("Success Initialize");
 	}

@@ -13,6 +13,12 @@ public interface EmployeeService {
 
     boolean deleteByID (Integer id);
 
-    Employee updateEmployee (Employee employee);
-    Employee updateSalary (int id);
+    Employee updateEmployee (Integer id,Employee employee);
+    Employee updateSalary (int id, Integer number);
+
+    List<Employee> searchEmployeeByName(String name);
+
+    Employee updatePosition(int id, String position);
+
+    List<Integer> deleteMultiElement(List<Integer> id);
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import tech.kbtg.BackendExam.service.EmployeeService;
 import tech.kbtg.BackendExam.entity.Employee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,9 +19,15 @@ public class EmployeeController {
     }
 
     @GetMapping("/")
-    public List<Employee> readAllEmployee(){
-        List<Employee> employeeList = employeeService.getAllEmployee();
-        return  employeeList;
+    public ResponseEntity<?>  readAllEmployee(){
+        try {
+            List<Employee> employeeList = employeeService.getAllEmployee();
+            return ResponseEntity.status( HttpStatus.OK ).body( employeeList );
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status( HttpStatus.NOT_FOUND ).body( e.getCause() );
+        }
     }
 
     @GetMapping("/{id}")
@@ -54,11 +61,11 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping("/")
-    public  ResponseEntity<?> updateEmployee(@RequestBody Employee employee)
+    @PutMapping("/{id}")
+    public  ResponseEntity<?> updateEmployee(@PathVariable Integer id,@RequestBody Employee employee)
     {
         try {
-            Employee resultEmployee = employeeService.updateEmployee(employee);
+            Employee resultEmployee = employeeService.updateEmployee(id,employee);
             return ResponseEntity.status( HttpStatus.OK ).body( resultEmployee );
         }
         catch (Exception e)
@@ -67,12 +74,60 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping("/salary/{id}")
-    public  ResponseEntity<?> updateSalary(@PathVariable(name = "id") Integer id)
+    @PutMapping("/salary/{id}/{percent}")
+    public  ResponseEntity<?> updateSalary(@PathVariable(name = "id") Integer id
+            , @PathVariable(name = "percent") Integer percent)
     {
         try {
-            Employee resultEmployee = employeeService.updateSalary(id);
+            Employee resultEmployee = employeeService.updateSalary(id, percent);
             return ResponseEntity.status( HttpStatus.OK ).body( resultEmployee );
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status( HttpStatus.NOT_FOUND ).body( e.getCause() );
+        }
+    }
+
+    @PutMapping("/position/{id}/{position}")
+    public  ResponseEntity<?> updatePositionByID(@PathVariable(name = "id") int id
+            , @PathVariable(name = "position") String posintion)
+    {
+        try {
+            Employee resultEmployee = employeeService.updatePosition(id, posintion);
+            return ResponseEntity.status( HttpStatus.OK ).body( resultEmployee );
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status( HttpStatus.NOT_FOUND ).body( e.getCause() );
+        }
+    }
+    @GetMapping("/name")
+    public  ResponseEntity<?> searchByName(@RequestParam String q)
+    {
+        try {
+            List<Employee> result = employeeService.searchEmployeeByName(q);
+            return ResponseEntity.status( HttpStatus.OK ).body( result );
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status( HttpStatus.NOT_FOUND ).body( e.getCause() );
+        }
+    }
+
+    @DeleteMapping("/")
+    public  ResponseEntity<?> bufferTesting(@RequestParam List<Integer> id)
+    {
+        try {
+            List<Integer> result = employeeService.deleteMultiElement(id);
+            if(result.size() > 0)
+            {
+                return ResponseEntity.status( HttpStatus.MULTI_STATUS).body( "not_found_ids_:" + result );
+            }
+            else
+            {
+                return ResponseEntity.status( HttpStatus.NO_CONTENT).body( result );
+            }
+
         }
         catch (Exception e)
         {

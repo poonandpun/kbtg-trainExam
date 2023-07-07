@@ -20,7 +20,7 @@ public class Employee {
     private String nickname;
 
     @Column(name = "salary")
-    private String salary;
+    private double salary;
 
     @Column(name = "address")
     private String address;
@@ -34,7 +34,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String firstname, String lastname, String nickname, String salary, String address, String status, String position) {
+    public Employee(String firstname, String lastname, String nickname, double salary, String address, String status, String position) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.nickname = nickname;
@@ -92,11 +92,11 @@ public class Employee {
         this.nickname = nickname;
     }
 
-    public String getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 

@@ -115,7 +115,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/")
-    public  ResponseEntity<?> bufferTesting(@RequestParam List<Integer> id)
+    public  ResponseEntity<?> deleteMultiID(@RequestParam List<Integer> id)
     {
         try {
             List<Integer> result = employeeService.deleteMultiElement(id);
